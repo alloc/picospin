@@ -20,7 +20,7 @@ import { getSpinner } from 'picospin'
 console.log(getSpinner()) // Returns colored spinner character
 ```
 
-#### `setSpinner(config: Partial<MistySpinner>)`
+#### `setSpinner(config: Partial<Spinner>)`
 
 Customizes the spinner used for active tasks.
 
@@ -64,10 +64,10 @@ spinListeners.add(() => {
 })
 ```
 
-#### `MistySpinner` Interface
+#### `Spinner` Interface
 
 ```ts
-interface MistySpinner {
+interface Spinner {
   interval: number // Time in ms between frame updates
   frames: string[] // Characters to cycle through
   color: (input: string) => string // Function to apply color

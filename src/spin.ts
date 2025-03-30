@@ -5,7 +5,13 @@ let frame = isInteractive ? 0 : -1
 let spinning: NodeJS.Timeout
 let spinCount = 0
 
-let spinner: MistySpinner = {
+export interface Spinner {
+  interval: number
+  frames: string[]
+  color: (input: string) => string
+}
+
+let spinner: Spinner = {
   interval: 80,
   frames: ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'],
   color: c.cyan,
@@ -17,9 +23,12 @@ export function getSpinner() {
 }
 
 /** Customize the spinner used for active tasks */
-export function setSpinner(config: Partial<MistySpinner>) {
+export function setSpinner(config: Partial<Spinner>) {
   Object.assign(spinner, config)
 }
+
+/** These functions are called when the spinner updates */
+export const spinListeners = new Set<Function>()
 
 /** Enable or disable the spin interval */
 export function spin(enabled: boolean) {
@@ -34,13 +43,4 @@ export function spin(enabled: boolean) {
     if (--spinCount > 0) return
     clearInterval(spinning)
   }
-}
-
-/** These functions are called when the spinner updates */
-export const spinListeners = new Set<Function>()
-
-export interface MistySpinner {
-  interval: number
-  frames: string[]
-  color: (input: string) => string
 }
